@@ -18,8 +18,6 @@ class TopHeadlinesPage extends StatefulWidget {
 }
 
 class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
-  BuildContext _context;
-
   // Reaction disposers
   List<ReactionDisposer> _disposers;
 
@@ -99,7 +97,6 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 24),
@@ -118,10 +115,17 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.filter)),
                   ),
-                  Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.search)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.search)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.ellipsisV)),
+                  ),
                 ],
               ),
             ),

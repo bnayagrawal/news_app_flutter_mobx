@@ -22,9 +22,9 @@ class Article {
 @JsonSerializable()
 class ArticleSource {
   final String id;
-  final String author;
+  final String name;
 
-  ArticleSource(this.id, this.author);
+  ArticleSource(this.id, this.name);
 
   factory ArticleSource.fromJson(Map<String, dynamic> json) => _$ArticleSourceFromJson(json);
 }

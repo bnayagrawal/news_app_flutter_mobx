@@ -63,6 +63,23 @@ mixin _$SettingsStore on _SettingsStore, Store {
         name: '${_$themeSetBySystemValueAtom.name}_set');
   }
 
+  final _$messageAtom = Atom(name: '_SettingsStore.message');
+
+  @override
+  String get message {
+    _$messageAtom.context.enforceReadPolicy(_$messageAtom);
+    _$messageAtom.reportObserved();
+    return super.message;
+  }
+
+  @override
+  set message(String value) {
+    _$messageAtom.context.conditionallyRunInAction(() {
+      super.message = value;
+      _$messageAtom.reportChanged();
+    }, _$messageAtom, name: '${_$messageAtom.name}_set');
+  }
+
   final _$_SettingsStoreActionController =
       ActionController(name: '_SettingsStore');
 

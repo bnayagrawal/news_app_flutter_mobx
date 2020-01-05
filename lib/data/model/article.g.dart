@@ -35,12 +35,12 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
 ArticleSource _$ArticleSourceFromJson(Map<String, dynamic> json) {
   return ArticleSource(
     json['id'] as String,
-    json['author'] as String,
+    json['name'] as String,
   );
 }
 
 Map<String, dynamic> _$ArticleSourceToJson(ArticleSource instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'author': instance.author,
+      'name': instance.name,
     };

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobx/mobx.dart';
 import 'settings_store.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -14,6 +15,39 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // Reaction disposers
+  List<ReactionDisposer> _disposers;
+
+  @override
+  void initState() {
+    _setupObserver();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Dispose reactions
+    for (final d in _disposers) {
+      d();
+    }
+    super.dispose();
+  }
+
+  _setupObserver() {
+    _disposers = [
+      // Listens for error message
+      autorun((_) {
+        final String message = widget.settingsStore.message;
+        _showMessage(message);
+      }),
+    ];
+  }
+
+  _showMessage(String message) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

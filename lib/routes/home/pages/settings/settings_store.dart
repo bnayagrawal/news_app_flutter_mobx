@@ -24,6 +24,10 @@ abstract class _SettingsStore with Store {
   @observable
   bool themeSetBySystemValue;
 
+  // Todo: Probably use a common store
+  @observable
+  String message;
+
   @action
   setNonValidatedApiKey(String value) {
     apiKeyValue = value;
@@ -31,8 +35,11 @@ abstract class _SettingsStore with Store {
 
   @action
   setApiKey() {
+    if (this.apiKeyValue != _appStore.apiKey) {
+      message = 'News API key updated!';
+    }
     _appStore.setApiKey(apiKeyValue);
-    apiKeyValue = apiKeyValue;
+    this.apiKeyValue = apiKeyValue;
   }
 
   @action
