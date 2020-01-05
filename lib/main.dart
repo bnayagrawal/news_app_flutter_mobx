@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'common/app_store.dart';
 import 'common/preference_service.dart';
 import 'routes/routes.dart';
@@ -38,6 +39,13 @@ class App extends StatelessWidget {
             builder: (_) => MaterialApp(
               theme: ThemeData(
                 // TODO: Missing system preference
+                textTheme: TextTheme(
+                  headline: GoogleFonts.raleway(fontWeight: FontWeight.w900, fontSize: 28),
+                  title: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 16),
+                  subtitle: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 11.5),
+                  subhead: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
+                  button: GoogleFonts.raleway(fontWeight: FontWeight.w900, fontSize: 14),
+                ),
                 brightness: appStore.useDarkMode ? Brightness.dark : Brightness.light,
                 primarySwatch: Colors.red,
               ),

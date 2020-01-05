@@ -1,3 +1,4 @@
+import 'package:News/common/app_store.dart';
 import 'package:News/common/preference_service.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_store.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'pages/settings/settings_store.dart';
 import 'logic/home_screen_store.dart';
 import 'pages/pages.dart';
 
@@ -36,7 +38,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildSettingsPage() {
-    return SettingsPage();
+    return Consumer<AppStore>(
+      builder: (context, appStore, _) => Provider(
+        create: (_) => SettingsStore(appStore),
+        child: Consumer<SettingsStore>(
+          builder: (context, settingsStore, _) => Material(
+            child: SettingsPage(settingsStore),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
