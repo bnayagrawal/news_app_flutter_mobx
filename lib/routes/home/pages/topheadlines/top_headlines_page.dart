@@ -2,11 +2,12 @@ import 'package:News/data/model/api_error.dart';
 import 'package:News/data/model/article.dart';
 import 'package:News/data/model/top_headlines.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_store.dart';
+import 'package:News/routes/home/widgets/news_thumbnail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
-import '../../widgets/news_item.dart';
+import '../../widgets/news_list_view.dart';
 
 class TopHeadlinesPage extends StatefulWidget {
   TopHeadlinesPage(this.store);
@@ -89,8 +90,16 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
 
   Widget _buildListView(TopHeadlines topHeadlines) {
     final List<Widget> items = <Widget>[];
-    topHeadlines.articles.forEach((Article article){
-      items.add(NewsItem(article));
+    topHeadlines.articles.forEach((Article article) {
+      items.add(NewsListView(article));
+    });
+    return ListView(children: items);
+  }
+
+  Widget _buildThumbnailView(TopHeadlines topHeadlines) {
+    final List<Widget> items = <Widget>[];
+    topHeadlines.articles.forEach((Article article) {
+      items.add(NewsThumbnailView(article));
     });
     return ListView(children: items);
   }
@@ -115,16 +124,73 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.all(8),
                     child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.filter)),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.all(8),
                     child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.search)),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.ellipsisV)),
+                  Opacity(
+                    opacity: 0.65,
+                    child: SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: PopupMenuButton<MenuItem>(
+                        icon: Icon(FontAwesomeIcons.ellipsisV),
+                        onSelected: widget.store.setView,
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
+                          PopupMenuItem<MenuItem>(
+                            value: MenuItem.LIST_VIEW,
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  FontAwesomeIcons.list,
+                                  color: widget.store.view == MenuItem.LIST_VIEW
+                                      ? Theme.of(context).accentColor
+                                      : Theme.of(context).iconTheme.color,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 16),
+                                  child: Text(
+                                    'List View',
+                                    style: TextStyle(
+                                      color: widget.store.view == MenuItem.LIST_VIEW
+                                          ? Theme.of(context).accentColor
+                                          : Theme.of(context).textTheme.headline.color,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<MenuItem>(
+                            value: MenuItem.THUMBNAIL_VIEW,
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  FontAwesomeIcons.image,
+                                  color: widget.store.view == MenuItem.THUMBNAIL_VIEW
+                                      ? Theme.of(context).accentColor
+                                      : Theme.of(context).iconTheme.color,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 16),
+                                  child: Text(
+                                    'Thumbnail View',
+                                    style: TextStyle(
+                                      color: widget.store.view == MenuItem.THUMBNAIL_VIEW
+                                          ? Theme.of(context).accentColor
+                                          : Theme.of(context).textTheme.headline.color,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -132,14 +198,16 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
             Expanded(
               child: Observer(builder: (_) {
                 final TopHeadlines topHeadlines = widget.store.topHeadlines;
-                if(widget.store.isLoading) {
+                if (widget.store.isLoading) {
                   return Center(
                     // Todo: Replace with Shimmer
                     child: CircularProgressIndicator(),
                   );
                 }
-                if(null != topHeadlines && topHeadlines.articles.isNotEmpty)
-                  return _buildListView(topHeadlines);
+                if (null != topHeadlines && topHeadlines.articles.isNotEmpty)
+                  return widget.store.view == MenuItem.LIST_VIEW
+                      ? _buildListView(topHeadlines)
+                      : _buildThumbnailView(topHeadlines);
                 else
                   return Center(child: Text('Error!'));
               }),
@@ -149,4 +217,9 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
       ),
     );
   }
+}
+
+enum MenuItem {
+  LIST_VIEW,
+  THUMBNAIL_VIEW,
 }

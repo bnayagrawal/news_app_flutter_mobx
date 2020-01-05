@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.plug),
+                      Icon(FontAwesomeIcons.plug, color: Theme.of(context).accentColor,),
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Text(
@@ -149,7 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.paintRoller),
+                      Icon(FontAwesomeIcons.paintRoller, color: Theme.of(context).accentColor,),
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Text(

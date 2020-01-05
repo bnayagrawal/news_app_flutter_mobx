@@ -1,8 +1,8 @@
 import 'package:News/data/model/article.dart';
 import 'package:flutter/material.dart';
 
-class NewsItem extends StatelessWidget {
-  NewsItem(this.article);
+class NewsListView extends StatelessWidget {
+  NewsListView(this.article);
 
   final Article article;
 

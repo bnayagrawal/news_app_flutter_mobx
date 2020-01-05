@@ -77,11 +77,41 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     }, _$errorAtom, name: '${_$errorAtom.name}_set');
   }
 
+  final _$viewAtom = Atom(name: '_TopHeadlinesStore.view');
+
+  @override
+  MenuItem get view {
+    _$viewAtom.context.enforceReadPolicy(_$viewAtom);
+    _$viewAtom.reportObserved();
+    return super.view;
+  }
+
+  @override
+  set view(MenuItem value) {
+    _$viewAtom.context.conditionallyRunInAction(() {
+      super.view = value;
+      _$viewAtom.reportChanged();
+    }, _$viewAtom, name: '${_$viewAtom.name}_set');
+  }
+
   final _$_fetchTopHeadlinesAsyncAction = AsyncAction('_fetchTopHeadlines');
 
   @override
   Future _fetchTopHeadlines() {
     return _$_fetchTopHeadlinesAsyncAction
         .run(() => super._fetchTopHeadlines());
+  }
+
+  final _$_TopHeadlinesStoreActionController =
+      ActionController(name: '_TopHeadlinesStore');
+
+  @override
+  dynamic setView(MenuItem value) {
+    final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
+    try {
+      return super.setView(value);
+    } finally {
+      _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
+    }
   }
 }

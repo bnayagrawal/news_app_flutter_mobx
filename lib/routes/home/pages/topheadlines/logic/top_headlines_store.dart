@@ -1,6 +1,7 @@
 import 'package:News/common/preference_service.dart';
 import 'package:News/data/model/api_error.dart';
 import 'package:News/data/model/top_headlines.dart';
+import 'package:News/routes/home/pages/pages.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
 import 'package:mobx/mobx.dart';
 
@@ -28,6 +29,9 @@ abstract class _TopHeadlinesStore with Store {
   @observable
   String error;
 
+  @observable
+  MenuItem view = MenuItem.LIST_VIEW;
+
   @action
   _fetchTopHeadlines() async {
     try {
@@ -42,4 +46,8 @@ abstract class _TopHeadlinesStore with Store {
     }
   }
 
+  @action
+  setView(MenuItem value) {
+    view = value;
+  }
 }
