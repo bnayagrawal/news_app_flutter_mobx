@@ -49,6 +49,12 @@ class App extends StatelessWidget {
                 ),
                 brightness: appStore.useDarkMode ? Brightness.dark : Brightness.light,
                 primarySwatch: Colors.red,
+                accentColor: Colors.red,
+                dividerColor: appStore.useDarkMode ? Colors.white30 : Colors.black38,
+                buttonTheme: ButtonThemeData(
+                  buttonColor: appStore.useDarkMode ? Colors.white30 : Colors.white70,
+                  textTheme: ButtonTextTheme.normal,
+                )
               ),
               home: (appStore.apiKey == null || appStore.apiKey.isEmpty) ? SetupScreen() : HomeScreen(),
             ),

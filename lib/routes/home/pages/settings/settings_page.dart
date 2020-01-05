@@ -37,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide()),
+                    border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
                   ),
                   padding: EdgeInsets.only(bottom: 16),
                   child: Row(
@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide()),
+                    border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
                   ),
                   padding: EdgeInsets.only(bottom: 16),
                   child: Row(
@@ -133,24 +133,25 @@ class _SettingsPageState extends State<SettingsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AbsorbPointer(
-                            absorbing: widget.settingsStore.themeSetBySystemValue,
-                            child: Opacity(
-                              opacity: widget.settingsStore.themeSetBySystemValue ? 0.3 : 1.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Use dark theme',
-                                    style: Theme.of(context).textTheme.title,
-                                  ),
-                                  Switch(
-                                    value: widget.settingsStore.useDarkModeValue,
-                                    onChanged: widget.settingsStore.setDarkMode,
-                                  )
-                                ],
-                              ),
+                          absorbing: widget.settingsStore.themeSetBySystemValue,
+                          child: Opacity(
+                            opacity: widget.settingsStore.themeSetBySystemValue ? 0.3 : 1.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Use dark theme',
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                                Switch(
+                                  value: widget.settingsStore.useDarkModeValue,
+                                  onChanged: widget.settingsStore.setDarkMode,
+                                  activeColor: Theme.of(context).accentColor,
+                                )
+                              ],
                             ),
                           ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Row(
@@ -181,6 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               Switch(
                                 value: widget.settingsStore.themeSetBySystemValue,
                                 onChanged: widget.settingsStore.setSystemTheme,
+                                activeColor: Theme.of(context).accentColor,
                               )
                             ],
                           ),
