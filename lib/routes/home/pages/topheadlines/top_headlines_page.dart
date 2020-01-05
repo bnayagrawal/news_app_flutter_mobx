@@ -1,3 +1,4 @@
+import 'package:News/data/api.dart';
 import 'package:News/data/model/api_error.dart';
 import 'package:News/data/model/article.dart';
 import 'package:News/data/model/top_headlines.dart';
@@ -43,7 +44,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
     );
   }
 
-  showErrorDialog(APIError apiError) {
+  _showErrorDialog(APIError apiError) {
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -52,12 +53,18 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           title: Text(
             'API Error - ${apiError.code}',
-            style: Theme.of(context).textTheme.subhead,
+            style: Theme
+                .of(context)
+                .textTheme
+                .subhead,
           ),
           content: SingleChildScrollView(
             child: Text(
               apiError.message,
-              style: Theme.of(context).textTheme.body1,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .body1,
             ),
           ),
           actions: <Widget>[
@@ -73,6 +80,79 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
     );
   }
 
+  _showFilterDialog() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Observer(
+            builder: (_) => Container(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text('Filter', style: Theme
+                        .of(context)
+                        .textTheme
+                        .subhead),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Text('Category'),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: DropdownButton<NewsCategory>(
+                            value: widget.store.category,
+                            onChanged: widget.store.setNewsCategory,
+                            style: Theme.of(context).textTheme.body1,
+                            isExpanded: true,
+                            items: <NewsCategory>[
+                              NewsCategory.all,
+                              NewsCategory.business,
+                              NewsCategory.entertainment,
+                              NewsCategory.general,
+                              NewsCategory.health,
+                              NewsCategory.science,
+                              NewsCategory.sports,
+                              NewsCategory.technology,
+                            ]
+                                .map<DropdownMenuItem<NewsCategory>>((NewsCategory value) {
+                              return DropdownMenuItem<NewsCategory>(
+                                value: value,
+                                child: Text(value.toString().split('.').last),
+                              );
+                            })
+                                .toList(),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RaisedButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   _setupObserver() {
     _disposers = [
       // Listens for error message
@@ -83,7 +163,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
       // Listens for API error
       autorun((_) {
         final APIError error = widget.store.apiError;
-        showErrorDialog(error);
+        _showErrorDialog(error);
       })
     ];
   }
@@ -120,12 +200,20 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                   Expanded(
                     child: Opacity(
                       opacity: 0.85,
-                      child: Text('Top Headlines', style: Theme.of(context).textTheme.headline),
+                      child: Text('Top Headlines', style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.filter)),
+                  Material(
+                    child: InkWell(
+                      onTap: _showFilterDialog,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.filter)),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
@@ -139,7 +227,8 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                       child: PopupMenuButton<MenuItem>(
                         icon: Icon(FontAwesomeIcons.ellipsisV),
                         onSelected: widget.store.setView,
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
+                        itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<MenuItem>>[
                           PopupMenuItem<MenuItem>(
                             value: MenuItem.LIST_VIEW,
                             child: Row(
@@ -147,8 +236,13 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                                 Icon(
                                   FontAwesomeIcons.list,
                                   color: widget.store.view == MenuItem.LIST_VIEW
-                                      ? Theme.of(context).accentColor
-                                      : Theme.of(context).iconTheme.color,
+                                      ? Theme
+                                      .of(context)
+                                      .accentColor
+                                      : Theme
+                                      .of(context)
+                                      .iconTheme
+                                      .color,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 16),
@@ -156,8 +250,14 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                                     'List View',
                                     style: TextStyle(
                                       color: widget.store.view == MenuItem.LIST_VIEW
-                                          ? Theme.of(context).accentColor
-                                          : Theme.of(context).textTheme.headline.color,
+                                          ? Theme
+                                          .of(context)
+                                          .accentColor
+                                          : Theme
+                                          .of(context)
+                                          .textTheme
+                                          .headline
+                                          .color,
                                     ),
                                   ),
                                 ),
@@ -171,8 +271,13 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                                 Icon(
                                   FontAwesomeIcons.image,
                                   color: widget.store.view == MenuItem.THUMBNAIL_VIEW
-                                      ? Theme.of(context).accentColor
-                                      : Theme.of(context).iconTheme.color,
+                                      ? Theme
+                                      .of(context)
+                                      .accentColor
+                                      : Theme
+                                      .of(context)
+                                      .iconTheme
+                                      .color,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 16),
@@ -180,8 +285,14 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> {
                                     'Thumbnail View',
                                     style: TextStyle(
                                       color: widget.store.view == MenuItem.THUMBNAIL_VIEW
-                                          ? Theme.of(context).accentColor
-                                          : Theme.of(context).textTheme.headline.color,
+                                          ? Theme
+                                          .of(context)
+                                          .accentColor
+                                          : Theme
+                                          .of(context)
+                                          .textTheme
+                                          .headline
+                                          .color,
                                     ),
                                   ),
                                 ),

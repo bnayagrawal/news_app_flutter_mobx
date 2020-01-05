@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:News/data/model/everything.dart';
 import 'package:News/data/model/sources.dart';
@@ -74,6 +75,7 @@ enum Country {
 }
 
 enum NewsCategory {
+  all,
   business,
   entertainment,
   general,
@@ -92,14 +94,22 @@ String _getCountryCode(Country country) {
   if (country == Country.ind)
     return 'in';
   else
-    return country.toString();
+    return country.toString().split('.').last;
+}
+
+String _getCategory(NewsCategory category) {
+  if (null == category) return null;
+  if (category == NewsCategory.all)
+    return '';
+  else
+    return category.toString().split('.').last;
 }
 
 Future<TopHeadlines> getTopHeadlines(String apiKey,
     {Country country = Country.ind, NewsCategory category, String q, int pageSize, int page}) async {
   final Map<String, String> queryParams = _filterNullOrEmptyValuesFromMap({
     'country': _getCountryCode(country),
-    'category': category?.toString(),
+    'category': _getCategory(category),
     'query': q,
     'pageSize': pageSize?.toString(),
     'page': page?.toString(),
@@ -161,8 +171,8 @@ Future<Everything> getEverything(
     'excludeDomains': excludeDomains,
     'from': from.toIso8601String(),
     'to': to?.toIso8601String(),
-    'language': language?.toString(),
-    'sortBy': sortBy?.toString(),
+    'language': language?.toString()?.split('.')?.last,
+    'sortBy': sortBy?.toString()?.split('.')?.last,
     'pageSize': pageSize?.toString(),
     'page': page?.toString(),
   });

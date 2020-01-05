@@ -94,6 +94,23 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     }, _$viewAtom, name: '${_$viewAtom.name}_set');
   }
 
+  final _$categoryAtom = Atom(name: '_TopHeadlinesStore.category');
+
+  @override
+  NewsCategory get category {
+    _$categoryAtom.context.enforceReadPolicy(_$categoryAtom);
+    _$categoryAtom.reportObserved();
+    return super.category;
+  }
+
+  @override
+  set category(NewsCategory value) {
+    _$categoryAtom.context.conditionallyRunInAction(() {
+      super.category = value;
+      _$categoryAtom.reportChanged();
+    }, _$categoryAtom, name: '${_$categoryAtom.name}_set');
+  }
+
   final _$_fetchTopHeadlinesAsyncAction = AsyncAction('_fetchTopHeadlines');
 
   @override
@@ -110,6 +127,16 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
     try {
       return super.setView(value);
+    } finally {
+      _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setNewsCategory(NewsCategory category) {
+    final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
+    try {
+      return super.setNewsCategory(category);
     } finally {
       _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
     }
