@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         create: (_) => TopHeadlinesStore(TopHeadlinesService(), preferencesService),
         child: Consumer<TopHeadlinesStore>(
           builder: (context, value, _) => Material(
-            child: TopHeadlinesPage(),
+            child: TopHeadlinesPage(value),
           ),
         ),
       ),

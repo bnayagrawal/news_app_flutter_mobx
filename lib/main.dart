@@ -45,6 +45,7 @@ class App extends StatelessWidget {
                   subtitle: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 11.5),
                   subhead: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
                   button: GoogleFonts.raleway(fontWeight: FontWeight.w900, fontSize: 14),
+                  body1: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 14),
                 ),
                 brightness: appStore.useDarkMode ? Brightness.dark : Brightness.light,
                 primarySwatch: Colors.red,

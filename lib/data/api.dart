@@ -8,7 +8,7 @@ import 'package:News/data/model/top_headlines.dart';
 import 'model/api_error.dart';
 
 // Base URL
-const String _baseApiURL = 'https://newsapi.org';
+const String _baseApiURL = 'newsapi.org';
 
 // API Endpoints
 const String _topHeadlines = '/v2/top-headlines';
@@ -96,7 +96,7 @@ String _getCountryCode(Country country) {
 }
 
 Future<TopHeadlines> getTopHeadlines(String apiKey,
-    {Country country, NewsCategory category, String q, int pageSize, int page}) async {
+    {Country country = Country.ind, NewsCategory category, String q, int pageSize, int page}) async {
   final Map<String, String> queryParams = _filterNullOrEmptyValuesFromMap({
     'country': _getCountryCode(country),
     'category': category?.toString(),
