@@ -16,18 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Widget _buildTopHeadlinesPage() {
-    return Consumer<PreferenceService>(
-      builder: (context, preferencesService, _) => Provider(
-        create: (_) => TopHeadlinesStore(TopHeadlinesService(), preferencesService),
-        child: Consumer<TopHeadlinesStore>(
-          builder: (context, value, _) => Material(
-            child: TopHeadlinesPage(value),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildEverythingPage() {
     return EverythingPage();
@@ -37,66 +25,71 @@ class _HomeScreenState extends State<HomeScreen> {
     return FavouritesPage();
   }
 
-  Widget _buildSettingsPage() {
-    return Consumer<AppStore>(
-      builder: (context, appStore, _) => Provider(
-        create: (_) => SettingsStore(appStore),
-        child: Consumer<SettingsStore>(
-          builder: (context, settingsStore, _) => Material(
-            child: SettingsPage(settingsStore),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Observer(builder: (_) {
-          switch (Provider.of<HomeScreenStore>(context).selectedPage) {
-            case 0:
-              return _buildTopHeadlinesPage();
-              break;
-            case 1:
-              return _buildEverythingPage();
-              break;
-            case 2:
-              return _buildFavouritesPage();
-              break;
-            case 3:
-              return _buildSettingsPage();
-              break;
-          }
-          return null;
-        }),
-      ),
-      bottomNavigationBar: Observer(
-        builder: (_) => BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.bolt),
-              title: Text('Top Headlines'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.globe),
-              title: Text('Everything'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.solidHeart),
-              title: Text('Favourites'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.cog),
-              title: Text('Settings'),
-            ),
-          ],
-          type: BottomNavigationBarType.fixed,
-          currentIndex: Provider.of<HomeScreenStore>(context).selectedPage,
-          onTap: Provider.of<HomeScreenStore>(context).setPage,
+    return MultiProvider(
+      providers: [
+        ProxyProvider<PreferenceService, TopHeadlinesStore>(
+          update: (_, preferenceService, __) => TopHeadlinesStore(TopHeadlinesService(), preferenceService),
+        ),
+        ProxyProvider<AppStore, SettingsStore>(
+          update: (_, appStore, __) => SettingsStore(appStore),
+        ),
+      ],
+      child: Scaffold(
+        body: Center(
+          child: Observer(builder: (_) {
+            switch (Provider.of<HomeScreenStore>(context).selectedPage) {
+              case 0:
+                return Consumer<TopHeadlinesStore>(
+                  builder: (context, headlinesStore, _) => Material(
+                    child: TopHeadlinesPage(headlinesStore),
+                  ),
+                );
+                break;
+              case 1:
+                return _buildEverythingPage();
+                break;
+              case 2:
+                return _buildFavouritesPage();
+                break;
+              case 3:
+                return Consumer<SettingsStore>(
+                  builder: (context, settingsStore, _) => Material(
+                    child: SettingsPage(settingsStore),
+                  ),
+                );
+                break;
+            }
+            return null;
+          }),
+        ),
+        bottomNavigationBar: Observer(
+          builder: (_) => BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.bolt),
+                title: Text('Top Headlines'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.globe),
+                title: Text('Everything'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.solidHeart),
+                title: Text('Favourites'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.cog),
+                title: Text('Settings'),
+              ),
+            ],
+            type: BottomNavigationBarType.fixed,
+            currentIndex: Provider.of<HomeScreenStore>(context).selectedPage,
+            onTap: Provider.of<HomeScreenStore>(context).setPage,
+          ),
         ),
       ),
     );
