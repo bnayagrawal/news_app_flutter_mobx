@@ -1,5 +1,6 @@
 import 'package:News/data/model/article.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewsListView extends StatelessWidget {
   NewsListView(this.article);
@@ -24,10 +25,25 @@ class NewsListView extends StatelessWidget {
             children: <Widget>[
               Flexible(
                 flex: 2,
-                child: Image.network(
-                  article.urlToImage,
-                  fit: BoxFit.cover,
-                ),
+                child: article.urlToImage != null
+                    ? Image.network(
+                        article.urlToImage,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                                  : null,
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        alignment: Alignment.center,
+                        child: Icon(FontAwesomeIcons.image),
+                      ),
               ),
               Flexible(
                 flex: 4,

@@ -75,7 +75,6 @@ enum Country {
 }
 
 enum NewsCategory {
-  all,
   business,
   entertainment,
   general,
@@ -99,10 +98,7 @@ String _getCountryCode(Country country) {
 
 String _getCategory(NewsCategory category) {
   if (null == category) return null;
-  if (category == NewsCategory.all)
-    return '';
-  else
-    return category.toString().split('.').last;
+  return category.toString().split('.').last;
 }
 
 Future<TopHeadlines> getTopHeadlines(String apiKey,

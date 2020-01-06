@@ -48,6 +48,10 @@ class App extends StatelessWidget {
                   body1: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 14),
                   display4: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 11)
                 ),
+                tabBarTheme: TabBarTheme(
+                  labelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
+                  unselectedLabelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20)
+                ),
                 brightness: appStore.useDarkMode ? Brightness.dark : Brightness.light,
                 primarySwatch: Colors.red,
                 accentColor: Colors.red,

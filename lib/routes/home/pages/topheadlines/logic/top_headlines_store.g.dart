@@ -9,38 +9,38 @@ part of 'top_headlines_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
-  final _$topHeadlinesAtom = Atom(name: '_TopHeadlinesStore.topHeadlines');
+  final _$newsDataAtom = Atom(name: '_TopHeadlinesStore.newsData');
 
   @override
-  TopHeadlines get topHeadlines {
-    _$topHeadlinesAtom.context.enforceReadPolicy(_$topHeadlinesAtom);
-    _$topHeadlinesAtom.reportObserved();
-    return super.topHeadlines;
+  Map<NewsCategory, TopHeadlines> get newsData {
+    _$newsDataAtom.context.enforceReadPolicy(_$newsDataAtom);
+    _$newsDataAtom.reportObserved();
+    return super.newsData;
   }
 
   @override
-  set topHeadlines(TopHeadlines value) {
-    _$topHeadlinesAtom.context.conditionallyRunInAction(() {
-      super.topHeadlines = value;
-      _$topHeadlinesAtom.reportChanged();
-    }, _$topHeadlinesAtom, name: '${_$topHeadlinesAtom.name}_set');
+  set newsData(Map<NewsCategory, TopHeadlines> value) {
+    _$newsDataAtom.context.conditionallyRunInAction(() {
+      super.newsData = value;
+      _$newsDataAtom.reportChanged();
+    }, _$newsDataAtom, name: '${_$newsDataAtom.name}_set');
   }
 
-  final _$isLoadingAtom = Atom(name: '_TopHeadlinesStore.isLoading');
+  final _$loadingStatusAtom = Atom(name: '_TopHeadlinesStore.loadingStatus');
 
   @override
-  bool get isLoading {
-    _$isLoadingAtom.context.enforceReadPolicy(_$isLoadingAtom);
-    _$isLoadingAtom.reportObserved();
-    return super.isLoading;
+  Map<NewsCategory, bool> get loadingStatus {
+    _$loadingStatusAtom.context.enforceReadPolicy(_$loadingStatusAtom);
+    _$loadingStatusAtom.reportObserved();
+    return super.loadingStatus;
   }
 
   @override
-  set isLoading(bool value) {
-    _$isLoadingAtom.context.conditionallyRunInAction(() {
-      super.isLoading = value;
-      _$isLoadingAtom.reportChanged();
-    }, _$isLoadingAtom, name: '${_$isLoadingAtom.name}_set');
+  set loadingStatus(Map<NewsCategory, bool> value) {
+    _$loadingStatusAtom.context.conditionallyRunInAction(() {
+      super.loadingStatus = value;
+      _$loadingStatusAtom.reportChanged();
+    }, _$loadingStatusAtom, name: '${_$loadingStatusAtom.name}_set');
   }
 
   final _$apiErrorAtom = Atom(name: '_TopHeadlinesStore.apiError');
@@ -94,29 +94,12 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     }, _$viewAtom, name: '${_$viewAtom.name}_set');
   }
 
-  final _$categoryAtom = Atom(name: '_TopHeadlinesStore.category');
+  final _$fetchTopHeadlinesAsyncAction = AsyncAction('fetchTopHeadlines');
 
   @override
-  NewsCategory get category {
-    _$categoryAtom.context.enforceReadPolicy(_$categoryAtom);
-    _$categoryAtom.reportObserved();
-    return super.category;
-  }
-
-  @override
-  set category(NewsCategory value) {
-    _$categoryAtom.context.conditionallyRunInAction(() {
-      super.category = value;
-      _$categoryAtom.reportChanged();
-    }, _$categoryAtom, name: '${_$categoryAtom.name}_set');
-  }
-
-  final _$_fetchTopHeadlinesAsyncAction = AsyncAction('_fetchTopHeadlines');
-
-  @override
-  Future _fetchTopHeadlines() {
-    return _$_fetchTopHeadlinesAsyncAction
-        .run(() => super._fetchTopHeadlines());
+  Future fetchTopHeadlines(NewsCategory category) {
+    return _$fetchTopHeadlinesAsyncAction
+        .run(() => super.fetchTopHeadlines(category));
   }
 
   final _$_TopHeadlinesStoreActionController =
@@ -127,16 +110,6 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
     try {
       return super.setView(value);
-    } finally {
-      _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setNewsCategory(NewsCategory category) {
-    final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
-    try {
-      return super.setNewsCategory(category);
     } finally {
       _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
     }

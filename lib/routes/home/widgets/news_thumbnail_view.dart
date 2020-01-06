@@ -1,5 +1,6 @@
 import 'package:News/data/model/article.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewsThumbnailView extends StatelessWidget {
   NewsThumbnailView(this.article);
@@ -23,10 +24,28 @@ class NewsThumbnailView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Expanded(
-                child: Image.network(
-                  article.urlToImage,
-                  fit: BoxFit.cover,
-                ),
+                child: article.urlToImage != null
+                    ? Image.network(
+                        article.urlToImage,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            height: 120,
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                                  : null,
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        height: 120,
+                        alignment: Alignment.center,
+                        child: Icon(FontAwesomeIcons.image),
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

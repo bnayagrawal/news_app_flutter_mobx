@@ -15,14 +15,15 @@ abstract class _TopHeadlinesStore with Store {
   PreferenceService _preferenceService;
 
   _TopHeadlinesStore(this._topHeadlinesService, this._preferenceService) {
-    _fetchTopHeadlines();
+    fetchTopHeadlines(NewsCategory.general);
   }
 
+  //Todo: merge both maps
   @observable
-  TopHeadlines topHeadlines;
+  Map<NewsCategory, TopHeadlines> newsData = {};
 
   @observable
-  bool isLoading = false;
+  Map<NewsCategory, bool> loadingStatus = {};
 
   @observable
   APIError apiError;
@@ -33,14 +34,12 @@ abstract class _TopHeadlinesStore with Store {
   @observable
   MenuItem view = MenuItem.LIST_VIEW;
 
-  @observable
-  NewsCategory category = NewsCategory.all;
-
   @action
-  _fetchTopHeadlines() async {
+  fetchTopHeadlines(NewsCategory category) async {
     try {
-      isLoading = true;
-      topHeadlines = await _topHeadlinesService.getTopHeadlines(
+      if(null != newsData[category]) return;
+      loadingStatus[category] = true;
+      newsData[category] = await _topHeadlinesService.getTopHeadlines(
         _preferenceService.apiKey,
         newsCategory: category,
       );
@@ -49,20 +48,12 @@ abstract class _TopHeadlinesStore with Store {
     } on Exception catch (e) {
       this.error = e.toString();
     } finally {
-      isLoading = false;
+      loadingStatus[category] = false;
     }
   }
 
   @action
   setView(MenuItem value) {
     view = value;
-  }
-
-  @action
-  setNewsCategory(NewsCategory category) {
-    if(category != this.category) {
-      this.category = category;
-      _fetchTopHeadlines();
-    }
   }
 }
