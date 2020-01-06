@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SetupScreen extends StatefulWidget {
-
   @override
   _SetupScreenState createState() => _SetupScreenState();
 }
@@ -34,26 +33,37 @@ class _SetupScreenState extends State<SetupScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          alignment: Alignment.center,
           padding: EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Enter API key'),
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  onSaved: (String value) {
-                    this._value = value;
-                  },
-                  validator: (value) {
-                    _formKey.currentState.save();
-                    if (value.isEmpty) {
-                      return 'Please enter API key';
-                    }
-                    return null;
-                  },
+              Text('News App', style: Theme.of(context).textTheme.headline),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  'You need to obtain a API key from https://newsapi.org/register to use this application. The API key is required to fetch news data from server.',
+                  style: Theme.of(context).textTheme.body1,
+                ),
+              ),
+              Text('Enter API key', style: Theme.of(context).textTheme.subhead,),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    onSaved: (String value) {
+                      this._value = value;
+                    },
+                    validator: (value) {
+                      _formKey.currentState.save();
+                      if (value.isEmpty) {
+                        return 'Please enter API key';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
               RaisedButton(
