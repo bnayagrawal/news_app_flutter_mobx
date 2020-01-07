@@ -38,7 +38,7 @@ class App extends StatelessWidget {
           return Observer(
             builder: (_) => MaterialApp(
               theme: ThemeData(
-                // TODO: Missing system preference
+                // TODO: Missing system preference, create separate theme for dark and light mode.
                 textTheme: TextTheme(
                   headline: GoogleFonts.raleway(fontWeight: FontWeight.w900, fontSize: 28),
                   title: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 16),
@@ -46,12 +46,21 @@ class App extends StatelessWidget {
                   subhead: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
                   button: GoogleFonts.raleway(fontWeight: FontWeight.w900, fontSize: 14),
                   body1: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 14),
-                  display4: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 11)
+                  display4: GoogleFonts.raleway(fontWeight: FontWeight.w500, fontSize: 11),
                 ),
-                tabBarTheme: TabBarTheme(
-                  labelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
-                  unselectedLabelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20)
-                ),
+                tabBarTheme: appStore.useDarkMode
+                    ? TabBarTheme(
+                        labelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
+                        unselectedLabelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
+                        indicator: UnderlineTabIndicator(borderSide: BorderSide(color: Colors.red, width: 3)),
+                      )
+                    : TabBarTheme(
+                        labelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
+                        labelColor: Colors.black87,
+                        unselectedLabelStyle: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
+                        unselectedLabelColor: Colors.black54,
+                        indicator: UnderlineTabIndicator(borderSide: BorderSide(color: Colors.red, width: 3)),
+                      ),
                 brightness: appStore.useDarkMode ? Brightness.dark : Brightness.light,
                 primarySwatch: Colors.red,
                 accentColor: Colors.red,
@@ -59,7 +68,7 @@ class App extends StatelessWidget {
                 buttonTheme: ButtonThemeData(
                   buttonColor: appStore.useDarkMode ? Colors.white30 : Colors.white70,
                   textTheme: ButtonTextTheme.normal,
-                )
+                ),
               ),
               home: (appStore.apiKey == null || appStore.apiKey.isEmpty) ? SetupScreen() : HomeScreen(),
             ),

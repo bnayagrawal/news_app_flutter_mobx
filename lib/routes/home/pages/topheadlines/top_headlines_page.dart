@@ -24,41 +24,20 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
   List<ReactionDisposer> _disposers;
   TabController _tabController;
   final List<Tab> _tabs = <Tab>[
-    Tab(
-      key: ValueKey<NewsCategory>(NewsCategory.general),
-      text: 'General'
-    ),
-    Tab(
-        key: ValueKey<NewsCategory>(NewsCategory.business),
-        text: 'Business'
-    ),
-    Tab(
-        key: ValueKey<NewsCategory>(NewsCategory.entertainment),
-        text: 'Entertainment'
-    ),
-    Tab(
-        key: ValueKey<NewsCategory>(NewsCategory.health),
-        text: 'Health'
-    ),
-    Tab(
-        key: ValueKey<NewsCategory>(NewsCategory.science),
-        text: 'Science'
-    ),
-    Tab(
-        key: ValueKey<NewsCategory>(NewsCategory.technology),
-        text: 'Technology'
-    ),
-    Tab(
-        key: ValueKey<NewsCategory>(NewsCategory.sports),
-        text: 'Sports'
-    ),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.general), text: 'General'),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.business), text: 'Business'),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.entertainment), text: 'Entertainment'),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.health), text: 'Health'),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.science), text: 'Science'),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.technology), text: 'Technology'),
+    Tab(key: ValueKey<NewsCategory>(NewsCategory.sports), text: 'Sports'),
   ];
 
   @override
   void initState() {
     _setupObserver();
     _tabController = TabController(vsync: this, length: _tabs.length);
-    _tabController.addListener((){
+    _tabController.addListener(() {
       widget.store.fetchTopHeadlines((_tabs[_tabController.index].key as ValueKey<NewsCategory>).value);
     });
     super.initState();
@@ -169,7 +148,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.only(top: 24, bottom: 8),
               child: Row(
                 children: <Widget>[
                   Expanded(
