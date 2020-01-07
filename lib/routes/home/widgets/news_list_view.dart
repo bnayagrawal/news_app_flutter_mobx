@@ -1,6 +1,7 @@
 import 'package:News/data/model/article.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:News/util/helper.dart';
 
 class NewsListView extends StatelessWidget {
   NewsListView(this.article);
@@ -67,7 +68,11 @@ class NewsListView extends StatelessWidget {
                       Opacity(
                         opacity: 0.75,
                         child: Text(
-                          article.publishedAt,
+                          article.publishedAt == null
+                              ? 'published at n/a'
+                              : relativeTimeString(
+                                  DateTime.parse(article.publishedAt),
+                                ),
                           style: Theme.of(context).textTheme.display4,
                         ),
                       )

@@ -1,4 +1,5 @@
 import 'package:News/data/model/article.dart';
+import 'package:News/util/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -67,7 +68,11 @@ class NewsThumbnailView extends StatelessWidget {
                     Opacity(
                       opacity: 0.75,
                       child: Text(
-                        article.publishedAt,
+                        article.publishedAt == null
+                            ? 'published at n/a'
+                            : relativeTimeString(
+                                DateTime.parse(article.publishedAt),
+                              ),
                         style: Theme.of(context).textTheme.display4,
                       ),
                     )
