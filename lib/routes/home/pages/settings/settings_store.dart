@@ -12,6 +12,7 @@ abstract class _SettingsStore with Store {
   _SettingsStore(this._appStore) {
     apiKeyValue = _appStore.apiKey;
     useDarkModeValue = _appStore.useDarkMode;
+    usePitchBlackValue = _appStore.usePitchBlack;
     themeSetBySystemValue = _appStore.themeSetBySystem;
   }
 
@@ -20,6 +21,9 @@ abstract class _SettingsStore with Store {
 
   @observable
   bool useDarkModeValue;
+
+  @observable
+  bool usePitchBlackValue;
 
   @observable
   bool themeSetBySystemValue;
@@ -46,6 +50,12 @@ abstract class _SettingsStore with Store {
   setDarkMode(bool value) {
     _appStore.setDarkMode(value);
     useDarkModeValue = value;
+  }
+
+  @action
+  setPitchBlack(bool value) {
+    _appStore.setPitchBlack(value);
+    usePitchBlackValue = value;
   }
 
   @action

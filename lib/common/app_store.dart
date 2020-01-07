@@ -1,3 +1,4 @@
+import 'package:News/common/themes.dart';
 import 'package:mobx/mobx.dart';
 import 'preference_service.dart';
 
@@ -12,6 +13,7 @@ abstract class _AppStore with Store {
   _AppStore(this._preferenceService) {
     apiKey = _preferenceService.apiKey;
     themeSetBySystem = _preferenceService.themeSetBySystem;
+    usePitchBlack = _preferenceService.usePitchBlack;
     useDarkMode = _preferenceService.useDarkMode;
   }
 
@@ -20,6 +22,9 @@ abstract class _AppStore with Store {
 
   @observable
   bool useDarkMode;
+
+  @observable
+  bool usePitchBlack;
 
   @observable
   bool themeSetBySystem;
@@ -34,6 +39,12 @@ abstract class _AppStore with Store {
   setDarkMode(bool value) {
     _preferenceService.useDarkMode = value;
     useDarkMode = value;
+  }
+
+  @action
+  setPitchBlack(bool value) {
+    _preferenceService.usePitchBlack = value;
+    usePitchBlack = value;
   }
 
   @action

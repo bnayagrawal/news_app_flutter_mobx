@@ -9,13 +9,10 @@ class NewsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      color: Theme.of(context).cardColor,
       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.black12),
-      ),
+      elevation: 0,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(6),
         child: IntrinsicHeight(

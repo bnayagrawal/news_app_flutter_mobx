@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceService {
   final String _themeKey = 'theme';
+  final String _pitchBlackKey = 'pitchBlack';
   final String _themeSetBySystemKey = 'themeSetBySystem';
   final String _apiKey = 'apiKey';
 
@@ -11,6 +12,10 @@ class PreferenceService {
 
   set useDarkMode(bool value) {
     _sharedPreferences.setBool(_themeKey, value);
+  }
+
+  set usePitchBlack(bool value) {
+    _sharedPreferences.setBool(_pitchBlackKey, value);
   }
 
   set themeSetBySystem(bool value) {
@@ -26,4 +31,6 @@ class PreferenceService {
   bool get themeSetBySystem => _sharedPreferences.getBool(_themeSetBySystemKey) ?? false;
 
   bool get useDarkMode => _sharedPreferences.getBool(_themeKey) ?? false;
+
+  bool get usePitchBlack => _sharedPreferences.getBool(_pitchBlackKey) ?? false;
 }

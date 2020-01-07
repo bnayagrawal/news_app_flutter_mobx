@@ -140,129 +140,125 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 24, bottom: 8),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Opacity(
-                      opacity: 0.85,
-                      child: Text('Top Headlines', style: Theme.of(context).textTheme.headline),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.search)),
-                  ),
-                  Opacity(
-                    opacity: 0.65,
-                    child: SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: PopupMenuButton<MenuItem>(
-                        icon: Icon(FontAwesomeIcons.ellipsisV),
-                        onSelected: widget.store.setView,
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
-                          PopupMenuItem<MenuItem>(
-                            value: MenuItem.LIST_VIEW,
-                            child: Row(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesomeIcons.list,
-                                  color: widget.store.view == MenuItem.LIST_VIEW
-                                      ? Theme.of(context).accentColor
-                                      : Theme.of(context).iconTheme.color,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 16),
-                                  child: Text(
-                                    'List View',
-                                    style: TextStyle(
-                                      color: widget.store.view == MenuItem.LIST_VIEW
-                                          ? Theme.of(context).accentColor
-                                          : Theme.of(context).textTheme.headline.color,
-                                    ),
+    return Container(
+      color: Theme.of(context).backgroundColor,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 24, bottom: 8, left: 8, right: 8),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text('Top Headlines', style: Theme.of(context).textTheme.headline),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Opacity(opacity: 0.65, child: Icon(FontAwesomeIcons.search)),
+                ),
+                Opacity(
+                  opacity: 0.65,
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: PopupMenuButton<MenuItem>(
+                      icon: Icon(FontAwesomeIcons.ellipsisV),
+                      onSelected: widget.store.setView,
+                      itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
+                        PopupMenuItem<MenuItem>(
+                          value: MenuItem.LIST_VIEW,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.list,
+                                color: widget.store.view == MenuItem.LIST_VIEW
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).iconTheme.color,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16),
+                                child: Text(
+                                  'List View',
+                                  style: TextStyle(
+                                    color: widget.store.view == MenuItem.LIST_VIEW
+                                        ? Theme.of(context).accentColor
+                                        : Theme.of(context).textTheme.headline.color,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          PopupMenuItem<MenuItem>(
-                            value: MenuItem.THUMBNAIL_VIEW,
-                            child: Row(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesomeIcons.image,
-                                  color: widget.store.view == MenuItem.THUMBNAIL_VIEW
-                                      ? Theme.of(context).accentColor
-                                      : Theme.of(context).iconTheme.color,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 16),
-                                  child: Text(
-                                    'Thumbnail View',
-                                    style: TextStyle(
-                                      color: widget.store.view == MenuItem.THUMBNAIL_VIEW
-                                          ? Theme.of(context).accentColor
-                                          : Theme.of(context).textTheme.headline.color,
-                                    ),
+                        ),
+                        PopupMenuItem<MenuItem>(
+                          value: MenuItem.THUMBNAIL_VIEW,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.image,
+                                color: widget.store.view == MenuItem.THUMBNAIL_VIEW
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).iconTheme.color,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16),
+                                child: Text(
+                                  'Thumbnail View',
+                                  style: TextStyle(
+                                    color: widget.store.view == MenuItem.THUMBNAIL_VIEW
+                                        ? Theme.of(context).accentColor
+                                        : Theme.of(context).textTheme.headline.color,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            TabBar(
+          ),
+          TabBar(
+            controller: _tabController,
+            tabs: _tabs,
+            isScrollable: true,
+          ),
+          Expanded(
+            child: TabBarView(
               controller: _tabController,
-              tabs: _tabs,
-              isScrollable: true,
+              children: <Widget>[
+                _buildPage(NewsCategory.general),
+                _buildPage(NewsCategory.business),
+                _buildPage(NewsCategory.entertainment),
+                _buildPage(NewsCategory.health),
+                _buildPage(NewsCategory.science),
+                _buildPage(NewsCategory.technology),
+                _buildPage(NewsCategory.sports),
+              ],
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  _buildPage(NewsCategory.general),
-                  _buildPage(NewsCategory.business),
-                  _buildPage(NewsCategory.entertainment),
-                  _buildPage(NewsCategory.health),
-                  _buildPage(NewsCategory.science),
-                  _buildPage(NewsCategory.technology),
-                  _buildPage(NewsCategory.sports),
-                ],
-              ),
-            ),
-            /*Expanded(
-              child: Observer(builder: (_) {
-                final TopHeadlines topHeadlines = widget.store.topHeadlines;
-                if (widget.store.isLoading) {
-                  return Center(
-                    // Todo: Replace with Shimmer
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (null != topHeadlines && topHeadlines.articles.isNotEmpty)
-                  return widget.store.view == MenuItem.LIST_VIEW
-                      ? _buildListView(topHeadlines)
-                      : _buildThumbnailView(topHeadlines);
-                else
-                  return Center(child: Text('Error!'));
-              }),
-            ),*/
-          ],
-        ),
+          ),
+          /*Expanded(
+            child: Observer(builder: (_) {
+              final TopHeadlines topHeadlines = widget.store.topHeadlines;
+              if (widget.store.isLoading) {
+                return Center(
+                  // Todo: Replace with Shimmer
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (null != topHeadlines && topHeadlines.articles.isNotEmpty)
+                return widget.store.view == MenuItem.LIST_VIEW
+                    ? _buildListView(topHeadlines)
+                    : _buildThumbnailView(topHeadlines);
+              else
+                return Center(child: Text('Error!'));
+            }),
+          ),*/
+        ],
       ),
     );
   }

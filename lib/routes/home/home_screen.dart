@@ -37,37 +37,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
       child: Scaffold(
-        body: Center(
-          child: Observer(builder: (_) {
-            switch (Provider.of<HomeScreenStore>(context).selectedPage) {
-              case 0:
-                return Consumer<TopHeadlinesStore>(
-                  builder: (context, headlinesStore, _) => Material(
-                    child: TopHeadlinesPage(headlinesStore),
-                  ),
-                );
-                break;
-              case 1:
-                return _buildEverythingPage();
-                break;
-              case 2:
-                return _buildFavouritesPage();
-                break;
-              case 3:
-                return Consumer<SettingsStore>(
-                  builder: (context, settingsStore, _) => Material(
-                    child: SettingsPage(settingsStore),
-                  ),
-                );
-                break;
-            }
-            return null;
-          }),
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: SafeArea(
+          child: Center(
+            child: Observer(builder: (_) {
+              switch (Provider.of<HomeScreenStore>(context).selectedPage) {
+                case 0:
+                  return Consumer<TopHeadlinesStore>(
+                    builder: (context, headlinesStore, _) => Material(
+                      child: TopHeadlinesPage(headlinesStore),
+                    ),
+                  );
+                  break;
+                case 1:
+                  return _buildEverythingPage();
+                  break;
+                case 2:
+                  return _buildFavouritesPage();
+                  break;
+                case 3:
+                  return Consumer<SettingsStore>(
+                    builder: (context, settingsStore, _) => Material(
+                      child: SettingsPage(settingsStore),
+                    ),
+                  );
+                  break;
+              }
+              return null;
+            }),
+          ),
         ),
         bottomNavigationBar: Observer(
           builder: (_) => BottomNavigationBar(
             showSelectedLabels: false,
             showUnselectedLabels: false,
+            backgroundColor: Theme.of(context).backgroundColor,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(FontAwesomeIcons.bolt),

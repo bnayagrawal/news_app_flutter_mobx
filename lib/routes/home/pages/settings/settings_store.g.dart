@@ -43,6 +43,25 @@ mixin _$SettingsStore on _SettingsStore, Store {
     }, _$useDarkModeValueAtom, name: '${_$useDarkModeValueAtom.name}_set');
   }
 
+  final _$usePitchBlackValueAtom =
+      Atom(name: '_SettingsStore.usePitchBlackValue');
+
+  @override
+  bool get usePitchBlackValue {
+    _$usePitchBlackValueAtom.context
+        .enforceReadPolicy(_$usePitchBlackValueAtom);
+    _$usePitchBlackValueAtom.reportObserved();
+    return super.usePitchBlackValue;
+  }
+
+  @override
+  set usePitchBlackValue(bool value) {
+    _$usePitchBlackValueAtom.context.conditionallyRunInAction(() {
+      super.usePitchBlackValue = value;
+      _$usePitchBlackValueAtom.reportChanged();
+    }, _$usePitchBlackValueAtom, name: '${_$usePitchBlackValueAtom.name}_set');
+  }
+
   final _$themeSetBySystemValueAtom =
       Atom(name: '_SettingsStore.themeSetBySystemValue');
 
@@ -108,6 +127,16 @@ mixin _$SettingsStore on _SettingsStore, Store {
     final _$actionInfo = _$_SettingsStoreActionController.startAction();
     try {
       return super.setDarkMode(value);
+    } finally {
+      _$_SettingsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPitchBlack(bool value) {
+    final _$actionInfo = _$_SettingsStoreActionController.startAction();
+    try {
+      return super.setPitchBlack(value);
     } finally {
       _$_SettingsStoreActionController.endAction(_$actionInfo);
     }

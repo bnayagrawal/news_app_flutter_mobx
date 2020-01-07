@@ -43,6 +43,23 @@ mixin _$AppStore on _AppStore, Store {
     }, _$useDarkModeAtom, name: '${_$useDarkModeAtom.name}_set');
   }
 
+  final _$usePitchBlackAtom = Atom(name: '_AppStore.usePitchBlack');
+
+  @override
+  bool get usePitchBlack {
+    _$usePitchBlackAtom.context.enforceReadPolicy(_$usePitchBlackAtom);
+    _$usePitchBlackAtom.reportObserved();
+    return super.usePitchBlack;
+  }
+
+  @override
+  set usePitchBlack(bool value) {
+    _$usePitchBlackAtom.context.conditionallyRunInAction(() {
+      super.usePitchBlack = value;
+      _$usePitchBlackAtom.reportChanged();
+    }, _$usePitchBlackAtom, name: '${_$usePitchBlackAtom.name}_set');
+  }
+
   final _$themeSetBySystemAtom = Atom(name: '_AppStore.themeSetBySystem');
 
   @override
@@ -77,6 +94,16 @@ mixin _$AppStore on _AppStore, Store {
     final _$actionInfo = _$_AppStoreActionController.startAction();
     try {
       return super.setDarkMode(value);
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPitchBlack(bool value) {
+    final _$actionInfo = _$_AppStoreActionController.startAction();
+    try {
+      return super.setPitchBlack(value);
     } finally {
       _$_AppStoreActionController.endAction(_$actionInfo);
     }

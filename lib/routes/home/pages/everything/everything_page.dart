@@ -8,22 +8,18 @@ class EverythingPage extends StatefulWidget {
 class _EverythingPageState extends State<EverythingPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: Opacity(
-                opacity: 0.85,
-                child: Text('Everything', style: Theme.of(context).textTheme.headline),
-              ),
-            ),
-          ],
-        ),
+    return Container(
+      color: Theme.of(context).backgroundColor,
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Text('Everything', style: Theme.of(context).textTheme.headline),
+          ),
+        ],
       ),
     );
   }
