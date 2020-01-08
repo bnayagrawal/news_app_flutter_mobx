@@ -1,9 +1,13 @@
 import 'package:News/common/preference_service.dart';
 import 'package:News/data/api.dart';
 import 'package:News/data/model/api_error.dart';
+import 'package:News/data/model/article.dart';
 import 'package:News/data/model/top_headlines.dart';
+import 'package:News/routes/article/article_view_screen.dart';
 import 'package:News/routes/home/pages/pages.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 part 'top_headlines_store.g.dart';
@@ -55,5 +59,13 @@ abstract class _TopHeadlinesStore with Store {
   @action
   setView(MenuItem value) {
     view = value;
+  }
+
+  // Todo: Use proper named navigation. Should navigation be done here?
+  onArticleClick(Article article, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ArticleViewScreen(article)),
+    );
   }
 }

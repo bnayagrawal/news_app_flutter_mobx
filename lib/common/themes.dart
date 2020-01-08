@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 //Todo: Use proper text theme sizes
+final TextTheme _textTheme = TextTheme(
+  headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
+  title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+  subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+  subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+  button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+  body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+  body2: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+  display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
+  display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+);
+
 final lightTheme = ThemeData(
   fontFamily: 'Raleway',
-  textTheme: TextTheme(
-    headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
-    title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
-    subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-    button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
-    body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-    display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
-    display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-  ),
+  textTheme: _textTheme,
   tabBarTheme: TabBarTheme(
     labelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
     labelColor: Colors.black,
@@ -27,6 +30,7 @@ final lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.grey[100],
   backgroundColor: Colors.grey[100],
   cardColor: Colors.white,
+  bottomAppBarColor: Colors.white,
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.white70,
     textTheme: ButtonTextTheme.normal,
@@ -39,16 +43,7 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
   fontFamily: 'Raleway',
-  textTheme: TextTheme(
-    headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
-    title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
-    subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-    button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
-    body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-    display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
-    display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-  ),
+  textTheme: _textTheme,
   tabBarTheme: TabBarTheme(
     labelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
     unselectedLabelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
@@ -61,6 +56,7 @@ final darkTheme = ThemeData(
   scaffoldBackgroundColor: Colors.grey[850],
   backgroundColor: Colors.grey[850],
   cardColor: Colors.grey[800],
+  bottomAppBarColor: Colors.grey[700],
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.white30,
     textTheme: ButtonTextTheme.normal,
@@ -73,16 +69,7 @@ final darkTheme = ThemeData(
 
 final pitchBlack = ThemeData(
   fontFamily: 'Raleway',
-  textTheme: TextTheme(
-    headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
-    title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
-    subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-    button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
-    body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-    display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
-    display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-  ),
+  textTheme: _textTheme,
   tabBarTheme: TabBarTheme(
     labelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
     unselectedLabelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
@@ -95,7 +82,7 @@ final pitchBlack = ThemeData(
   scaffoldBackgroundColor: Colors.black,
   backgroundColor: Colors.black,
   cardColor: Colors.grey[900],
-  bottomAppBarColor: Colors.black,
+  bottomAppBarColor: Colors.grey[900],
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.white30,
     textTheme: ButtonTextTheme.normal,

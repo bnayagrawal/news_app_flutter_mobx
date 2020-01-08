@@ -111,7 +111,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
     final List<Widget> items = <Widget>[];
     topHeadlines.articles.forEach((Article article) {
       Widget articleWidget;
-      switch(view) {
+      switch (view) {
         case MenuItem.LIST_VIEW:
           articleWidget = NewsListView(article);
           break;
@@ -122,7 +122,15 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
           articleWidget = NewsCompactView(article);
           break;
       }
-      items.add(articleWidget);
+      items.add(
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => widget.store.onArticleClick(article, context),
+            child: articleWidget,
+          ),
+        ),
+      );
     });
     return ListView(padding: EdgeInsets.symmetric(vertical: 8), children: items);
   }
