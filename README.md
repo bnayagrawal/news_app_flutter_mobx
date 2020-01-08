@@ -1,9 +1,15 @@
 # news_app_flutter_mobx
 
-A new Flutter project.
+A Flutter News App to demonstrate the use of state management using MobX. 
+
+## Screenshots
+
+With light, dark and black themes support. Themes can be changed in settings.
+
+<img src="./screenshots/Light.jpg" width="256"/> | <img src="./screenshots/Dark.jpg" width="256"/> | <img src="./screenshots/Black.jpg" width="256"/>
 
 ## Getting Started
-
+[]()
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
