@@ -3,6 +3,7 @@ import 'package:News/data/model/api_error.dart';
 import 'package:News/data/model/article.dart';
 import 'package:News/data/model/top_headlines.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_store.dart';
+import 'package:News/routes/home/widgets/news_compact_view.dart';
 import 'package:News/routes/home/widgets/news_thumbnail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -54,39 +55,41 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
   }
 
   _showMessage(String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    if (null != message)
+      Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
   }
 
   _showErrorDialog(APIError apiError) {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          title: Text(
-            'API Error - ${apiError.code}',
-            style: Theme.of(context).textTheme.subhead,
-          ),
-          content: SingleChildScrollView(
-            child: Text(
-              apiError.message,
-              style: Theme.of(context).textTheme.body1,
+    if (null != apiError)
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            title: Text(
+              'API Error - ${apiError.code}',
+              style: Theme.of(context).textTheme.subhead,
             ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            content: SingleChildScrollView(
+              child: Text(
+                apiError.message,
+                style: Theme.of(context).textTheme.body1,
+              ),
             ),
-          ],
-        );
-      },
-    );
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
   }
 
   _setupObserver() {
@@ -104,18 +107,22 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
     ];
   }
 
-  Widget _buildListView(TopHeadlines topHeadlines) {
+  Widget _buildArticleList(TopHeadlines topHeadlines, MenuItem view) {
     final List<Widget> items = <Widget>[];
     topHeadlines.articles.forEach((Article article) {
-      items.add(NewsListView(article));
-    });
-    return ListView(padding: EdgeInsets.symmetric(vertical: 8), children: items);
-  }
-
-  Widget _buildThumbnailView(TopHeadlines topHeadlines) {
-    final List<Widget> items = <Widget>[];
-    topHeadlines.articles.forEach((Article article) {
-      items.add(NewsThumbnailView(article));
+      Widget articleWidget;
+      switch(view) {
+        case MenuItem.LIST_VIEW:
+          articleWidget = NewsListView(article);
+          break;
+        case MenuItem.THUMBNAIL_VIEW:
+          articleWidget = NewsThumbnailView(article);
+          break;
+        case MenuItem.COMPACT_VIEW:
+          articleWidget = NewsCompactView(article);
+          break;
+      }
+      items.add(articleWidget);
     });
     return ListView(padding: EdgeInsets.symmetric(vertical: 8), children: items);
   }
@@ -130,9 +137,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
         );
       }
       if (null != topHeadlines && topHeadlines.articles.isNotEmpty)
-        return widget.store.view == MenuItem.LIST_VIEW
-            ? _buildListView(topHeadlines)
-            : _buildThumbnailView(topHeadlines);
+        return _buildArticleList(topHeadlines, widget.store.view);
       else
         return Center(child: Text('Error!'));
     });
@@ -167,6 +172,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
                       icon: Icon(FontAwesomeIcons.ellipsisV),
                       onSelected: widget.store.setView,
                       itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
+                        //Todo: Create a separate widget for PopupMenuItem
                         PopupMenuItem<MenuItem>(
                           value: MenuItem.LIST_VIEW,
                           child: Row(
@@ -196,7 +202,7 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
                           child: Row(
                             children: <Widget>[
                               Icon(
-                                FontAwesomeIcons.image,
+                                FontAwesomeIcons.addressCard,
                                 color: widget.store.view == MenuItem.THUMBNAIL_VIEW
                                     ? Theme.of(context).accentColor
                                     : Theme.of(context).iconTheme.color,
@@ -207,6 +213,30 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
                                   'Thumbnail View',
                                   style: TextStyle(
                                     color: widget.store.view == MenuItem.THUMBNAIL_VIEW
+                                        ? Theme.of(context).accentColor
+                                        : Theme.of(context).textTheme.headline.color,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem<MenuItem>(
+                          value: MenuItem.COMPACT_VIEW,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.image,
+                                color: widget.store.view == MenuItem.COMPACT_VIEW
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).iconTheme.color,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16),
+                                child: Text(
+                                  'Compact View',
+                                  style: TextStyle(
+                                    color: widget.store.view == MenuItem.COMPACT_VIEW
                                         ? Theme.of(context).accentColor
                                         : Theme.of(context).textTheme.headline.color,
                                   ),
@@ -241,23 +271,6 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
               ],
             ),
           ),
-          /*Expanded(
-            child: Observer(builder: (_) {
-              final TopHeadlines topHeadlines = widget.store.topHeadlines;
-              if (widget.store.isLoading) {
-                return Center(
-                  // Todo: Replace with Shimmer
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (null != topHeadlines && topHeadlines.articles.isNotEmpty)
-                return widget.store.view == MenuItem.LIST_VIEW
-                    ? _buildListView(topHeadlines)
-                    : _buildThumbnailView(topHeadlines);
-              else
-                return Center(child: Text('Error!'));
-            }),
-          ),*/
         ],
       ),
     );
@@ -267,4 +280,5 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
 enum MenuItem {
   LIST_VIEW,
   THUMBNAIL_VIEW,
+  COMPACT_VIEW,
 }

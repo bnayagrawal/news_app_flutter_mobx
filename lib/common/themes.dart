@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
+//Todo: Use proper text theme sizes
 final lightTheme = ThemeData(
   fontFamily: 'Raleway',
   textTheme: TextTheme(
     headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
     title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 11.5),
+    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
     subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
     button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
     body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-    display4: TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
+    display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
+    display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
   ),
   tabBarTheme: TabBarTheme(
     labelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
@@ -29,6 +31,10 @@ final lightTheme = ThemeData(
     buttonColor: Colors.white70,
     textTheme: ButtonTextTheme.normal,
   ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.white,
+    contentTextStyle: TextStyle(color: Colors.black87),
+  ),
 );
 
 final darkTheme = ThemeData(
@@ -36,11 +42,12 @@ final darkTheme = ThemeData(
   textTheme: TextTheme(
     headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
     title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 11.5),
+    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
     subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
     button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
     body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-    display4: TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
+    display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
+    display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
   ),
   tabBarTheme: TabBarTheme(
     labelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
@@ -58,6 +65,10 @@ final darkTheme = ThemeData(
     buttonColor: Colors.white30,
     textTheme: ButtonTextTheme.normal,
   ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.grey[800],
+    contentTextStyle: TextStyle(color: Colors.white70),
+  ),
 );
 
 final pitchBlack = ThemeData(
@@ -65,11 +76,12 @@ final pitchBlack = ThemeData(
   textTheme: TextTheme(
     headline: TextStyle(fontWeight: FontWeight.w900, fontSize: 28),
     title: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 11.5),
+    subtitle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
     subhead: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
     button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
     body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-    display4: TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
+    display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
+    display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
   ),
   tabBarTheme: TabBarTheme(
     labelStyle: TextStyle(fontFamily: 'Raleway', fontWeight: FontWeight.w700, fontSize: 20),
@@ -87,5 +99,9 @@ final pitchBlack = ThemeData(
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.white30,
     textTheme: ButtonTextTheme.normal,
+  ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.grey[900],
+    contentTextStyle: TextStyle(color: Colors.white60),
   ),
 );

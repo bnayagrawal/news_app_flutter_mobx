@@ -1,4 +1,3 @@
-
 // In seconds
 const int ONE_DAY = 86400;
 const int ONE_HOUR = 3600;
@@ -24,5 +23,5 @@ String relativeTimeString(DateTime dateTime) {
       return '${hours}h $minutes minutes ago';
   }*/
 
-  return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}';
+  return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
 }

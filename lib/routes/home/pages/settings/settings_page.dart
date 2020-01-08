@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:News/data/api.dart';
+import 'package:News/util/country.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +19,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // Reaction disposers
   List<ReactionDisposer> _disposers;
 
@@ -78,7 +83,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(FontAwesomeIcons.plug, color: Theme.of(context).accentColor,),
+                            Icon(
+                              FontAwesomeIcons.plug,
+                              color: Theme.of(context).accentColor,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(
@@ -150,7 +158,89 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(FontAwesomeIcons.paintRoller, color: Theme.of(context).accentColor,),
+                            Icon(
+                              FontAwesomeIcons.database,
+                              color: Theme.of(context).accentColor,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(
+                                'Data filter',
+                                style: Theme.of(context).textTheme.subhead,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Todo: Implementation missing
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, top: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 4),
+                                          child: Text(
+                                            'Country',
+                                            style: Theme.of(context).textTheme.title,
+                                          ),
+                                        ),
+                                        Opacity(
+                                          opacity: 0.5,
+                                          child: Text(
+                                            'Only applied on Top Headlines',
+                                            style: Theme.of(context).textTheme.subtitle,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Image.asset(getFlagAssetPathForCountry(Country.ind), width: 72),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Center(child: Text('India')),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
+                        ),
+                        padding: EdgeInsets.only(bottom: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.paintRoller,
+                              color: Theme.of(context).accentColor,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(
@@ -248,7 +338,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                           Opacity(
                                             opacity: 0.5,
                                             child: Text(
-                                              'Requires minimum Android 10 or IOS 13',
+                                              'Requires minimum OS version ${Platform.isAndroid ? 'Android 10' : 'IOS 13'}',
                                               style: Theme.of(context).textTheme.subtitle,
                                             ),
                                           ),
