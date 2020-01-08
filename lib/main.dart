@@ -1,9 +1,13 @@
+import 'package:News/data/model/top_headlines.dart';
 import 'package:News/routes/home/logic/home_screen_store.dart';
+import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
+import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'common/app_store.dart';
+import 'package:News/routes/home/pages/settings/settings_store.dart';
 import 'common/preference_service.dart';
 import 'routes/routes.dart';
 import 'common/themes.dart' as Themes;
@@ -28,6 +32,12 @@ class App extends StatelessWidget {
         ),
         ProxyProvider<PreferenceService, AppStore>(
           update: (_, preferenceService, __) => AppStore(preferenceService),
+        ),
+        ProxyProvider<AppStore, SettingsStore>(
+          update: (_, appStore, __) => SettingsStore(appStore),
+        ),
+        ProxyProvider<PreferenceService, TopHeadlinesStore>(
+          update: (_, preferenceService, __) => TopHeadlinesStore(TopHeadlinesService(), preferenceService),
         ),
         ProxyProvider<PreferenceService, HomeScreenStore>(
           update: (_, preferenceService, __) => HomeScreenStore(preferenceService),

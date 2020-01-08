@@ -1,6 +1,3 @@
-import 'package:News/common/app_store.dart';
-import 'package:News/common/preference_service.dart';
-import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -27,73 +24,63 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ProxyProvider<PreferenceService, TopHeadlinesStore>(
-          update: (_, preferenceService, __) => TopHeadlinesStore(TopHeadlinesService(), preferenceService),
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SafeArea(
+        child: Center(
+          child: Observer(builder: (_) {
+            switch (Provider.of<HomeScreenStore>(context).selectedPage) {
+              case 0:
+                return Consumer<TopHeadlinesStore>(
+                  builder: (context, headlinesStore, _) => Material(
+                    child: TopHeadlinesPage(headlinesStore),
+                  ),
+                );
+                break;
+              case 1:
+                return _buildEverythingPage();
+                break;
+              case 2:
+                return _buildFavouritesPage();
+                break;
+              case 3:
+                return Consumer<SettingsStore>(
+                  builder: (context, settingsStore, _) => Material(
+                    child: SettingsPage(settingsStore),
+                  ),
+                );
+                break;
+            }
+            return null;
+          }),
         ),
-        ProxyProvider<AppStore, SettingsStore>(
-          update: (_, appStore, __) => SettingsStore(appStore),
-        ),
-      ],
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: SafeArea(
-          child: Center(
-            child: Observer(builder: (_) {
-              switch (Provider.of<HomeScreenStore>(context).selectedPage) {
-                case 0:
-                  return Consumer<TopHeadlinesStore>(
-                    builder: (context, headlinesStore, _) => Material(
-                      child: TopHeadlinesPage(headlinesStore),
-                    ),
-                  );
-                  break;
-                case 1:
-                  return _buildEverythingPage();
-                  break;
-                case 2:
-                  return _buildFavouritesPage();
-                  break;
-                case 3:
-                  return Consumer<SettingsStore>(
-                    builder: (context, settingsStore, _) => Material(
-                      child: SettingsPage(settingsStore),
-                    ),
-                  );
-                  break;
-              }
-              return null;
-            }),
-          ),
-        ),
-        bottomNavigationBar: Observer(
-          builder: (_) => BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            backgroundColor: Theme.of(context).backgroundColor,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.bolt),
-                title: Text('Top Headlines'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.globe),
-                title: Text('Everything'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.solidHeart),
-                title: Text('Favourites'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.cog),
-                title: Text('Settings'),
-              ),
-            ],
-            type: BottomNavigationBarType.fixed,
-            currentIndex: Provider.of<HomeScreenStore>(context).selectedPage,
-            onTap: Provider.of<HomeScreenStore>(context).setPage,
-          ),
+      ),
+      bottomNavigationBar: Observer(
+        builder: (_) => BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          backgroundColor: Theme.of(context).backgroundColor,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.bolt),
+              title: Text('Top Headlines'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.globe),
+              title: Text('Everything'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.solidHeart),
+              title: Text('Favourites'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.cog),
+              title: Text('Settings'),
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+          currentIndex: Provider.of<HomeScreenStore>(context).selectedPage,
+          onTap: Provider.of<HomeScreenStore>(context).setPage,
         ),
       ),
     );

@@ -37,8 +37,13 @@ class _TopHeadlinesPageState extends State<TopHeadlinesPage> with SingleTickerPr
   @override
   void initState() {
     _setupObserver();
-    _tabController = TabController(vsync: this, length: _tabs.length);
+    _tabController = TabController(
+      initialIndex: widget.store.activeTabIndex,
+      vsync: this,
+      length: _tabs.length,
+    );
     _tabController.addListener(() {
+      widget.store.setActiveTab(_tabController.index);
       widget.store.fetchTopHeadlines((_tabs[_tabController.index].key as ValueKey<NewsCategory>).value);
     });
     super.initState();

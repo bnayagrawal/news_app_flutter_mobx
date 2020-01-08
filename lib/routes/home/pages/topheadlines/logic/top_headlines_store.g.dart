@@ -94,6 +94,23 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     }, _$viewAtom, name: '${_$viewAtom.name}_set');
   }
 
+  final _$activeTabIndexAtom = Atom(name: '_TopHeadlinesStore.activeTabIndex');
+
+  @override
+  int get activeTabIndex {
+    _$activeTabIndexAtom.context.enforceReadPolicy(_$activeTabIndexAtom);
+    _$activeTabIndexAtom.reportObserved();
+    return super.activeTabIndex;
+  }
+
+  @override
+  set activeTabIndex(int value) {
+    _$activeTabIndexAtom.context.conditionallyRunInAction(() {
+      super.activeTabIndex = value;
+      _$activeTabIndexAtom.reportChanged();
+    }, _$activeTabIndexAtom, name: '${_$activeTabIndexAtom.name}_set');
+  }
+
   final _$fetchTopHeadlinesAsyncAction = AsyncAction('fetchTopHeadlines');
 
   @override
@@ -110,6 +127,16 @@ mixin _$TopHeadlinesStore on _TopHeadlinesStore, Store {
     final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
     try {
       return super.setView(value);
+    } finally {
+      _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setActiveTab(int value) {
+    final _$actionInfo = _$_TopHeadlinesStoreActionController.startAction();
+    try {
+      return super.setActiveTab(value);
     } finally {
       _$_TopHeadlinesStoreActionController.endAction(_$actionInfo);
     }

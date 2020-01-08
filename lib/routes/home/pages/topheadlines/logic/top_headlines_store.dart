@@ -19,6 +19,7 @@ abstract class _TopHeadlinesStore with Store {
   PreferenceService _preferenceService;
 
   _TopHeadlinesStore(this._topHeadlinesService, this._preferenceService) {
+    print('Init Top Headlines Store');
     fetchTopHeadlines(NewsCategory.general);
   }
 
@@ -37,6 +38,9 @@ abstract class _TopHeadlinesStore with Store {
 
   @observable
   MenuItem view = MenuItem.LIST_VIEW;
+
+  @observable
+  int activeTabIndex = 0;
 
   @action
   fetchTopHeadlines(NewsCategory category) async {
@@ -59,6 +63,11 @@ abstract class _TopHeadlinesStore with Store {
   @action
   setView(MenuItem value) {
     view = value;
+  }
+
+  @action
+  setActiveTab(int value) {
+    activeTabIndex = value;
   }
 
   // Todo: Use proper named navigation. Should navigation be done here?
