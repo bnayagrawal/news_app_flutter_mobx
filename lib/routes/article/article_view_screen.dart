@@ -36,7 +36,7 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
                   child: Opacity(
                     opacity: 0.75,
                     child: Text(
-                      widget.article.content ?? 'No article content available. To read the complete article, please open this article in your web browser app',
+                      widget.article.description ?? 'No article content available. To read the complete article, please open this article in your web browser app',
                       style: Theme.of(context).textTheme.body2,
                     ),
                   ),
