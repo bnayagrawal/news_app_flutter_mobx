@@ -19,7 +19,6 @@ abstract class _TopHeadlinesStore with Store {
   PreferenceService _preferenceService;
 
   _TopHeadlinesStore(this._topHeadlinesService, this._preferenceService) {
-    print('Init Top Headlines Store');
     fetchTopHeadlines(NewsCategory.general);
   }
 
