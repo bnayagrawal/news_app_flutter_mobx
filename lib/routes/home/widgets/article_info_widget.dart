@@ -11,7 +11,7 @@ class ArticleInfoWidget extends StatelessWidget {
   String _articleSource(ArticleSource source) => source == null ? '' : source.name + ' • ';
 
   String _publishedAt(String publishedAt) =>
-      publishedAt == null ? '' : relativeTimeString(DateTime.parse(article.publishedAt));
+      publishedAt == null ? '' : relativeTimeString(DateTime.parse(publishedAt));
 
   @override
   Widget build(BuildContext context) {

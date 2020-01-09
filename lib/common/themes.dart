@@ -9,6 +9,8 @@ final TextTheme _textTheme = TextTheme(
   button: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
   body1: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
   body2: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+  display1: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+  display2: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
   display3: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700),
   display4: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
 );

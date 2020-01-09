@@ -11,10 +11,15 @@ import 'model/api_error.dart';
 // Base URL
 const String _baseApiURL = 'newsapi.org';
 
+// URL for fetching publisher favicon
+const String _faviconBaseUrl = 'icon-locator.herokuapp.com';
+
 // API Endpoints
 const String _topHeadlines = '/v2/top-headlines';
 const String _everything = '/v2/everything';
 const String _sources = '/v2/sources';
+// For fetching favicon
+const String _favicon = '/icon';
 
 // Parameter values
 enum Country {
@@ -87,6 +92,16 @@ enum NewsCategory {
 enum NewsLanguage { ar, de, en, es, fr, he, it, nl, no, pt, ru, se, ud, zh }
 
 enum SortBy { relevancy, popularity, publishedAt }
+
+String getPublisherIconUrl(String publisherUrl) {
+  if(null == publisherUrl || publisherUrl.isEmpty)
+    return null;
+  final Map<String, String> queryParams = {
+    'url': publisherUrl,
+    'size': '70..120..200',
+  };
+  return Uri.https(_faviconBaseUrl, _favicon, queryParams).toString();
+}
 
 String _getCountryCode(Country country) {
   if (null == country) return null;
