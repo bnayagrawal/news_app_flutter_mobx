@@ -1,4 +1,3 @@
-import 'package:News/data/model/top_headlines.dart';
 import 'package:News/routes/home/logic/home_screen_store.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_store.dart';
@@ -22,6 +21,14 @@ class App extends StatelessWidget {
   App(this._sharedPreferences);
 
   final SharedPreferences _sharedPreferences;
+
+  ThemeData _getTheme(AppStore appStore) {
+    return appStore.useDarkMode ? appStore.usePitchBlack ? Themes.pitchBlack : Themes.darkTheme : Themes.lightTheme;
+  }
+
+  ThemeMode _getThemeMode(AppStore appStore) {
+    return appStore.themeSetBySystem ? ThemeMode.system : (appStore.useDarkMode ? ThemeMode.dark : ThemeMode.light);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +54,10 @@ class App extends StatelessWidget {
         builder: (context, appStore, _) {
           return Observer(
             builder: (_) => MaterialApp(
-              // TODO: Missing system preference
-              theme: appStore.useDarkMode
-                  ? appStore.usePitchBlack ? Themes.pitchBlack : Themes.darkTheme
-                  : Themes.lightTheme,
+              theme: _getTheme(appStore),
               home: (appStore.apiKey == null || appStore.apiKey.isEmpty) ? SetupScreen() : HomeScreen(),
+              themeMode: appStore.themeSetBySystem ? ThemeMode.system : _getThemeMode(appStore),
+              darkTheme: appStore.usePitchBlack ? Themes.pitchBlack : Themes.darkTheme,
             ),
           );
         },

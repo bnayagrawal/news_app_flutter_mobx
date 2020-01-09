@@ -279,47 +279,6 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8),
-                                child: AbsorbPointer(
-                                  absorbing: !widget.settingsStore.useDarkModeValue,
-                                  child: Opacity(
-                                    opacity: !widget.settingsStore.useDarkModeValue ? 0.45 : 1.0,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(bottom: 4),
-                                                child: Text(
-                                                  'Use pitch black theme',
-                                                  style: Theme.of(context).textTheme.title,
-                                                ),
-                                              ),
-                                              Opacity(
-                                                opacity: 0.5,
-                                                child: Text(
-                                                  'Only applies when dark mode is on',
-                                                  style: Theme.of(context).textTheme.subtitle,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Checkbox(
-                                          value: widget.settingsStore.usePitchBlackValue,
-                                          onChanged: widget.settingsStore.setPitchBlack,
-                                          activeColor: Theme.of(context).accentColor,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -331,14 +290,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 4),
                                             child: Text(
-                                              'Theme set by system',
+                                              'Use pitch black theme',
                                               style: Theme.of(context).textTheme.title,
                                             ),
                                           ),
                                           Opacity(
                                             opacity: 0.5,
                                             child: Text(
-                                              'Requires minimum OS version ${Platform.isAndroid ? 'Android 10' : 'IOS 13'}',
+                                              'Only applies when dark mode is on',
                                               style: Theme.of(context).textTheme.subtitle,
                                             ),
                                           ),
@@ -346,11 +305,52 @@ class _SettingsPageState extends State<SettingsPage> {
                                       ),
                                     ),
                                     Checkbox(
-                                      value: widget.settingsStore.themeSetBySystemValue,
-                                      onChanged: widget.settingsStore.setSystemTheme,
+                                      value: widget.settingsStore.usePitchBlackValue,
+                                      onChanged: widget.settingsStore.setPitchBlack,
                                       activeColor: Theme.of(context).accentColor,
                                     )
                                   ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                child: AbsorbPointer(
+                                  absorbing: widget.settingsStore.useDarkModeValue,
+                                  child: Opacity(
+                                    opacity: widget.settingsStore.useDarkModeValue ? 0.45 : 1.0,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 4),
+                                                child: Text(
+                                                  'Theme set by system',
+                                                  style: Theme.of(context).textTheme.title,
+                                                ),
+                                              ),
+                                              Opacity(
+                                                opacity: widget.settingsStore.useDarkModeValue ? 1.0 : 0.5,
+                                                child: Text(
+                                                  'Requires minimum OS version ${Platform.isAndroid ? 'Android 10' : 'IOS 13'}',
+                                                  style: Theme.of(context).textTheme.subtitle,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Checkbox(
+                                          value: widget.settingsStore.themeSetBySystemValue,
+                                          onChanged: widget.settingsStore.setSystemTheme,
+                                          activeColor: Theme.of(context).accentColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               )
                             ],
