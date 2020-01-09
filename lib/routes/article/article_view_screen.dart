@@ -1,21 +1,46 @@
-import 'package:News/data/model/article.dart';
 import 'package:News/routes/home/widgets/article_image_widget.dart';
 import 'package:News/util/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:News/data/api.dart' as Api;
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
+
+import 'logic/article_store.dart';
 
 class ArticleViewScreen extends StatefulWidget {
-  ArticleViewScreen(this.article);
+  ArticleViewScreen(this.store);
 
-  final Article article;
+  final ArticleStore store;
 
   @override
   _ArticleViewScreenState createState() => _ArticleViewScreenState();
 }
 
 class _ArticleViewScreenState extends State<ArticleViewScreen> {
-  Widget _articleDetails() {
+
+  ReactionDisposer _disposer;
+
+  @override
+  void initState() {
+    _disposer = autorun((_) {
+      final String message = widget.store.message;
+      if (null != message)
+        Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+    });
+    super.initState();
+  }
+  
+  @override
+  void dispose() {
+    if(null != _disposer)
+      _disposer();
+    super.dispose();
+  }
+
+  Widget _articleDetails(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -26,13 +51,13 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Text(
-                widget.article.title,
+                widget.store.article.title,
                 style: Theme.of(context).textTheme.headline.copyWith(fontSize: 24), //Todo: Use proper style
               ),
             ),
             Builder(
               builder: (BuildContext context) {
-                final String faviconUrl = Api.getPublisherIconUrl(widget.article.source?.name);
+                final String faviconUrl = Api.getPublisherIconUrl(widget.store.article.source?.name);
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16),
                   child: Row(
@@ -48,7 +73,7 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
                             Padding(
                               padding: EdgeInsets.only(left: 8),
                               child: Text(
-                                'Article\nPublished on\n${widget.article.source?.name}',
+                                'Article\nPublished on\n${widget.store.article.source?.name}',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -93,16 +118,16 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'By ${widget.article.author ?? 'Unknown'}',
+                          'By ${widget.store.article.author ?? 'Unknown'}',
                           style: Theme.of(context).textTheme.display2.copyWith(
-                                color: Theme.of(context).accentColor,
-                              ),
+                            color: Theme.of(context).accentColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          widget.article == null
+                          widget.store.article == null
                               ? 'Publication time N/A'
-                              : relativeTimeString(DateTime.parse(widget.article.publishedAt)),
+                              : relativeTimeString(DateTime.parse(widget.store.article.publishedAt)),
                           style: Theme.of(context).textTheme.display3,
                         ),
                       ],
@@ -114,7 +139,7 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
             Opacity(
               opacity: 0.75,
               child: Text(
-                widget.article.description ?? 'No article content available.',
+                widget.store.article.description ?? 'No article content available.',
                 style: Theme.of(context).textTheme.body2,
               ),
             ),
@@ -138,7 +163,7 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: OutlineButton.icon(
-                        onPressed: () {},
+                        onPressed: Provider.of<ArticleStore>(context).openLink,
                         icon: Icon(FontAwesomeIcons.link),
                         label: Text('Open Link'),
                       ),
@@ -152,56 +177,56 @@ class _ArticleViewScreenState extends State<ArticleViewScreen> {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: OrientationBuilder(
-        builder: (BuildContext context, Orientation orientation) {
-          switch (orientation) {
-            case Orientation.landscape:
-              return SafeArea(
-                child: Row(
+        body: OrientationBuilder(
+          builder: (BuildContext context, Orientation orientation) {
+            switch (orientation) {
+              case Orientation.landscape:
+                return SafeArea(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Expanded(child: ArticleImageWidget(widget.store.article.urlToImage)),
+                      Expanded(child: _articleDetails(context))
+                    ],
+                  ),
+                );
+                break;
+              default:
+                return Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Expanded(child: ArticleImageWidget(widget.article.urlToImage)),
-                    Expanded(child: _articleDetails())
+                    ArticleImageWidget(widget.store.article.urlToImage),
+                    Expanded(child: _articleDetails(context)),
                   ],
-                ),
-              );
-              break;
-            default:
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  ArticleImageWidget(widget.article.urlToImage),
-                  Expanded(child: _articleDetails()),
-                ],
-              );
-              break;
-          }
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
-        elevation: 3,
-        onPressed: () {},
-        child: Icon(FontAwesomeIcons.share),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          children: <Widget>[
-            BackButton(
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            Text(
-              'Home screen',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-            ),
-          ],
+                );
+                break;
+            }
+          },
         ),
-      ),
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: FloatingActionButton(
+          elevation: 3,
+          onPressed: widget.store.share,
+          child: Icon(FontAwesomeIcons.share),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          child: Row(
+            children: <Widget>[
+              BackButton(
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              Text(
+                'Home screen',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+              ),
+            ],
+          ),
+        ),
+      );
   }
 }

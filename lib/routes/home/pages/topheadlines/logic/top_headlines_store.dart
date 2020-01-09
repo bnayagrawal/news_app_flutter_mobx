@@ -4,11 +4,13 @@ import 'package:News/data/model/api_error.dart';
 import 'package:News/data/model/article.dart';
 import 'package:News/data/model/top_headlines.dart';
 import 'package:News/routes/article/article_view_screen.dart';
+import 'package:News/routes/article/logic/article_store.dart';
 import 'package:News/routes/home/pages/pages.dart';
 import 'package:News/routes/home/pages/topheadlines/logic/top_headlines_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 part 'top_headlines_store.g.dart';
 
@@ -44,7 +46,7 @@ abstract class _TopHeadlinesStore with Store {
   @action
   fetchTopHeadlines(NewsCategory category) async {
     try {
-      if(null != newsData[category]) return;
+      if (null != newsData[category]) return;
       loadingStatus[category] = true;
       newsData[category] = await _topHeadlinesService.getTopHeadlines(
         _preferenceService.apiKey,
@@ -73,7 +75,14 @@ abstract class _TopHeadlinesStore with Store {
   onArticleClick(Article article, BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ArticleViewScreen(article)),
+      MaterialPageRoute(
+        builder: (context) => Provider<ArticleStore>(
+          create: (_) => ArticleStore(article),
+          child: Consumer<ArticleStore>(
+            builder: (context, store, _) => ArticleViewScreen(store),
+          ),
+        ),
+      ),
     );
   }
 }
